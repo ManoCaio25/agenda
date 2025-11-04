@@ -16,7 +16,7 @@ export default function MainLayout() {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1, bgcolor: "black" }}>
         <Toolbar>
           <IconButton color="inherit" edge="start" onClick={() => setOpen(!open)}>
             <MenuIcon />
