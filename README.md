@@ -1,46 +1,66 @@
-# Getting Started with Create React App
+# Doencas em Folhas de Plantas
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Projeto academico de Inteligencia Artificial para classificar imagens de folhas de plantas em classes de doenca ou folha saudavel.
 
-## Available Scripts
+O treinamento usa o dataset Plant Disease Recognition Dataset do Kaggle: https://www.kaggle.com/datasets/rashikrahmanpritom/plant-disease-recognition-dataset
 
-In the project directory, you can run:
+## Estrutura
 
-### `npm start`
+```text
+.
+├── app/
+│   └── inference.py
+├── app.py
+├── data/
+├── models/
+├── notebook/
+│   └── plant_disease_colab.ipynb
+├── requirements.txt
+└── README.md
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## O que o notebook faz
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- EDA das imagens: classes, imagens por classe, exemplos visuais, resolucao e desbalanceamento.
+- Pre-processamento: resize para 224x224, normalizacao, treino/validacao/teste e data augmentation.
+- Treino de dois modelos: CNN simples baseline e MobileNetV2 com Transfer Learning.
+- Callbacks: EarlyStopping, ReduceLROnPlateau e ModelCheckpoint.
+- Avaliacao: accuracy, F1-score macro, classification report, matriz de confusao e exemplos de acertos/erros.
+- Exportacao de `models/best_model.keras` e `models/class_names.json`.
 
-### `npm test`
+## Executar o notebook no Google Colab
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Abra `notebook/plant_disease_colab.ipynb` no Google Colab.
+2. No Kaggle, crie um token em `Account > API > Create New Token`.
+3. Execute a celula de download e envie o arquivo `kaggle.json` quando solicitado.
+4. Execute as celulas em ordem.
+5. Ao final, mantenha ou copie estes arquivos para a pasta `models/` do projeto local:
 
-### `npm run build`
+```text
+models/best_model.keras
+models/class_names.json
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+As metricas serao calculadas durante a execucao. Este repositorio nao registra valores ficticios.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Executar a interface local
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Crie um ambiente virtual e instale as dependencias:
 
-### `npm run eject`
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Com `best_model.keras` e `class_names.json` dentro de `models/`, rode:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+streamlit run app.py
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+A interface permite upload de imagem, aplica o mesmo resize/normalizacao esperados pelo modelo, exibe a classe mais provavel, a confianca e o Top 3 de previsoes.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Observacao importante
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+O resultado e experimental e serve para demonstracao academica. Ele nao substitui avaliacao tecnica de um especialista em agricultura ou fitopatologia.

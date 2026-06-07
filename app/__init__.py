@@ -1,0 +1,1 @@
+"""Utilitarios do aplicativo Streamlit."""
