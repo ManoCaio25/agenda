@@ -99,6 +99,8 @@ export default function AgendaBlock() {
           label="Data e hora"
           value={dateTime}
           onChange={(v) => setDateTime(v)}
+          ampm={false}
+          format="DD/MM/YYYY HH:mm" 
           slotProps={{ textField: { fullWidth: true } }}
         />
 
